@@ -1,0 +1,17 @@
+.search-bar {
+    font-size: 3em;
+    text-align: center;
+    border: 0;
+    outline: none;
+}
+
+.search-bar:focus {
+    border: 0;
+}
+
+.search-form {
+    position: absolute;
+    top: 30%; 
+    right: 50%;
+    transform: translate(50%,-50%);
+}
