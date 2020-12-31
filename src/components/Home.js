@@ -19,10 +19,14 @@ class Home extends React.Component {
     render() {
         return (
             <div className="container">
-                <Searchbar 
-                handleChange={this.handleChange} 
-                searchField={this.state.searchField} 
-                />
+                <div className="search-bar-container">
+                    <Searchbar 
+                    handleChange={this.handleChange} 
+                    searchField={this.state.searchField} 
+                    />
+                    
+                </div>
+                <button>Show All Currencies</button>
             </div>
         );
     }
