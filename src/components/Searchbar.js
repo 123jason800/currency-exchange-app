@@ -1,8 +1,13 @@
 import './../css/Searchbar.css';
 import Searchresult from './../components/Searchresult';
+import 'currency-flags/dist/currency-flags.css';
+import {currencies} from './../data/currencies';
+
 const Searchbar = ({searchField,handleChange}) => {
-    let currencies = ['AUD', 'BGN', 'BRL', 'CAD', 'CHF', 'CNY','CZK', 'DKK', 'EUR', 'GBP', 'HKD', 'HRK', 'HUF', 'IDR', 'ILS', 'INR', 'ISK', 'JPY', 'KRW', 'MXN', 'MYR', 'NOK', 'NZD', 'PHP', 'PLN', 'RON', 'RUB', 'SEK', 'SGD', 'THB', 'TRY', 'USD', 'ZAR']; 
-  
+    
+    let filteredCurrencies = currencies.filter(currency => currency.includes(searchField)).map(currency => (
+        <Searchresult currency={currency} key={currency}/>));
+
     return (
         <div className="mt-5 search-form">
             <input
@@ -14,14 +19,10 @@ const Searchbar = ({searchField,handleChange}) => {
             value={searchField} 
             />
             <div className='search-results my-5'>
-                <div className="row">
-                {
-                   searchField && currencies.filter(currency => {
-                    return currency.includes(searchField);   
-                }).map(currency => (
-                    <Searchresult currency={currency} key={currency}/>
-                ))
-                }
+                <div className="container w-50">
+                    <div className="row">
+                        {searchField && (filteredCurrencies.length > 0 ? filteredCurrencies: <h2>No Results Available</h2>)}
+                    </div>
                 </div>
             </div>
         </div>

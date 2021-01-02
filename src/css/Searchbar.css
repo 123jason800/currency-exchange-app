@@ -21,4 +21,9 @@ a.card {
     color: #000;
 }
 
+.result-card {
+    min-height: 50px;
+}
+
+
 
