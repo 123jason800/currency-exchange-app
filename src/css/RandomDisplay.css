@@ -1,0 +1,16 @@
+.random-display {
+
+    padding: 10px 5px;
+    white-space: nowrap;
+    overflow-x: scroll;
+
+}
+
+.random-display::-webkit-scrollbar {
+    display: none;
+}
+
+
+.currency-card {
+    border: 1px solid #000;
+}

@@ -1,0 +1,17 @@
+.line-scale > div {
+    background-color: #000;
+    height: 15vh;
+}
+
+.loader {
+    position: relative;
+    min-height: 85vh;
+}
+
+.loader-inner {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 25%;
+
+}

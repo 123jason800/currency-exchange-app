@@ -14,16 +14,37 @@
 }
 
 .search-bar-container {
-    min-height: 75vh;
+    min-height: 50vh;
 }
 
-a.card {
+.card a {
     color: #000;
 }
 
 .result-card {
     min-height: 50px;
+  
 }
 
+.search-results {
+    min-height: 200px;
+}
 
-
+.currency-button {
+    border: 1px solid #000;
+    background: white;
+    border-radius: 10px;
+    padding: 10px 15px;
+}
+/* Tablet View */
+@media (max-width: 996px) {
+    .search-bar {
+        font-size: 2.4em;
+    }
+}
+/* Mobile View */
+@media (max-width: 576px) {
+    .search-bar {
+        font-size: 1.5em;
+    }
+}
