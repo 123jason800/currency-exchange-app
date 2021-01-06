@@ -1,9 +1,13 @@
 import React from 'react';
 import Searchbar from './Searchbar';
 import Randomdisplay from './RandomDisplay';
+import Currencytable from './Currencytable';
 import {handleRes,getPreviousDate} from './../utils/util';
 import Loader from './Loader';
 import {sample} from 'underscore';
+import './../css/Mobile.css';
+
+
 
 class Home extends React.Component {
     constructor(props) {
@@ -15,11 +19,12 @@ class Home extends React.Component {
             symbols:[],
             error:'',
             loaded:false,
-            showTable:false
+            isOpen:false,
                     }
         this.handleChange = this.handleChange.bind(this);
         this.getData = this.getData.bind(this);
         this.handleError = this.handleError.bind(this);
+        this.handleModal = this.handleModal.bind(this);
     }
 
     handleChange(event) {
@@ -29,7 +34,7 @@ class Home extends React.Component {
     }
 
     handleError(error) {
-        this.state({error});
+        this.setState({error});
     }
 
     getRandomData() {
@@ -73,7 +78,11 @@ class Home extends React.Component {
                         });
     }
 
-
+    handleModal() {
+        let {isOpen} = this.state;
+        isOpen = !isOpen;
+        this.setState({isOpen});
+    }
 
     
 
@@ -96,14 +105,14 @@ class Home extends React.Component {
                 searchField={this.state.searchField} 
                 symbols={this.state.symbols}
                 />
-                <button className={`mx-auto mt-5 btn ${this.state.showTable?'d-none':'d-block'} currency-button shadow`}>Show All Currencies</button>
+                <button className="mx-auto mt-5 btn currency-button d-block shadow" onClick={this.handleModal}>Show All Currencies</button>
             </div>
+            <Currencytable handleModal={this.handleModal} isOpen={this.state.isOpen} symbols={this.state.symbols} />
             <Randomdisplay 
             base={this.state.base}
             currencies={this.state.randomCurrencies}
             loaded={this.state.loaded}
             />
-
         </div>
           
         );

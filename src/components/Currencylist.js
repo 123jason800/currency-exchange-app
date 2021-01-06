@@ -1,13 +1,17 @@
-const Currencylist = props => {
-    const currencies = ['AUD', 'BGN', 'BRL', 'CAD', 'CHF', 'CNY',' CZK', 'DKK', 'EUR', 'GBP', 'HKD', 'HRK', 'HUF', 'IDR', 'ILS', 'INR', 'ISK', 'JPY', 'KRW', 'MXN', 'MYR', 'NOK', 'NZD', 'PHP', 'PLN', 'RON', 'RUB', 'SEK', 'SGD', 'THB', 'TRY', 'USD', 'ZAR'];
-    return (
-        <div>
-        
-        
-        </div>
-    );
+import {Link} from 'react-router-dom';
 
-}
-    
+const Currencylist = ({currency,sizing}) => (
+    <div className={`d-flex justify-content-center mb-3 mb-lg-5 ${sizing}`}>
+        <div className="card py-1 px-2 result-card justify-content-center border-dark shadow-sm"> 
+            <Link to={`/base/${currency}`} >
+                <div className="body d-flex align-items-center font-weight-bold">
+                    <span className="align-text-top mr-3">{currency} </span>
+                    <div className={`currency-flag-${currency.toLowerCase()} border border-dark currency-flag currency-flag-xl`}>
+                    </div>
+                </div>   
+            </Link>
+        </div>
+    </div>
+);
 
 export default Currencylist;

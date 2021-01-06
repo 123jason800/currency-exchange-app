@@ -1,0 +1,9 @@
+@media (max-width: 597px) {
+
+    .ReactModal__Content {
+   
+        margin-right: -40%!important;
+        overflow-y: auto;
+        max-height: 80vh;
+    }
+}
