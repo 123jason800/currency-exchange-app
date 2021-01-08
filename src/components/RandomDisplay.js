@@ -17,7 +17,7 @@ const CurrencyPair = ({rateYesterday,base,rate,currency}) => (
             </div>
 
             <div className="my-2">
-            {rate} {currency}
+            {rate.toFixed(3)} {currency}
             </div>
             <div className={`currency-flag-${currency.toLowerCase()} currency-flag currency-flag-xl  border border-dark `}>
             </div> 

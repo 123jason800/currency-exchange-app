@@ -17,7 +17,7 @@ function App() {
         <Navbar />  
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route path="/BaseCurrency/:id" component={Basecurrency} />  
+            <Route path="/base/:id" component={Basecurrency} />  
           </Switch>
           <Footer />
       </div>

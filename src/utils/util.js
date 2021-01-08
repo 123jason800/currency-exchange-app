@@ -30,3 +30,7 @@ export const calculateRate = (rate,rateYesterday) => {
 
     return Math.abs(((rate-rateYesterday)/rate * 100).toFixed(2));
 }
+
+export const calculateCurrency = (baseRate,againstRate) => {
+    return parseFloat(baseRate) * parseFloat(againstRate);
+}

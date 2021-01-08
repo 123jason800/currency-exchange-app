@@ -24,11 +24,7 @@ const Currencytable = ({isOpen,symbols,handleModal}) => {
                         {symbols.map(symbol => <Currencylist currency={symbol} key={symbol} sizing="col-6 col-sm-4 col-md-3 col-lg-2" />)}
                     </div>
                 </div>
-            </Modal>
-            
-           
-           
-  
+            </Modal>      
     );
    
 }

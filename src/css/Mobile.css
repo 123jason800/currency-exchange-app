@@ -3,7 +3,7 @@
     .ReactModal__Content {
    
         margin-right: -40%!important;
-        overflow-y: auto;
+        overflow: auto;
         max-height: 80vh;
     }
 }

@@ -9,6 +9,7 @@ import './../css/Mobile.css';
 
 
 
+
 class Home extends React.Component {
     constructor(props) {
         super(props);
@@ -67,7 +68,6 @@ class Home extends React.Component {
                                     currencies.push(currency);
                                 }
                             }
-
                             const randomCurrencies = sample(currencies,4);
                             this.setState({
                                 base,
