@@ -1,0 +1,23 @@
+
+/* Input spin wheel */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
+    width: 100%;
+    outline: none;
+    border-radius: 10px;
+    border: 1px solid black;
+}
+
+/* Currency Conversion */
+.currency-conversion {
+    padding: 10px 20px;
+    
+
+}

@@ -1,0 +1,49 @@
+.search-bar {
+    font-size: 3em;
+    text-align: center;
+    border: 0;
+    border-bottom: 1px solid #000;
+    outline: none;
+    margin-top: 200px;
+    width: 100%;
+}
+
+.search-bar:focus {
+    border: 0;
+    border-bottom: 1px solid #000;
+   
+}
+
+
+
+.card a {
+    color: #000;
+}
+
+.result-card {
+    min-height: 50px;
+  
+}
+
+.search-results {
+    min-height: 200px;
+}
+
+.currency-button {
+    border: 1px solid #000;
+    background: white;
+    border-radius: 10px;
+    padding: 10px 15px;
+}
+/* Tablet View */
+@media (max-width: 996px) {
+    .search-bar {
+        font-size: 2.4em;
+    }
+}
+/* Mobile View */
+@media (max-width: 576px) {
+    .search-bar {
+        font-size: 1.5em;
+    }
+}
