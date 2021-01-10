@@ -24,12 +24,22 @@ export const handleRes = response => {
 
 
 export const getPreviousDate = () => {
-    const currentHour = parseInt(moment().format("HH"));
-    // Account for Stock Open Hours
-    if (currentHour >= 5 &&  currentHour <= 16) {
-        return moment().subtract(1, 'days').format('YYYY-MM-DD');
+    const intTime = moment().utc();
+    const currentHour = parseInt(intTime.format("HH"));
+   
+    // Account for Stock Open Hours in UTC time
+    
+    console.log(intTime.subtract(1, 'days').format('YYYY-MM-DD'));
+    console.log(intTime.subtract(2, 'days').format('YYYY-MM-DD'));
+    if (currentHour >= 7 &&  currentHour <= 16) {
+        const currentMinutes =  parseInt(intTime.format("mm"));
+        if (currentMinutes >= 30) {
+            return intTime.subtract(1, 'days').format('YYYY-MM-DD');
+        }
     }    
-    return moment().subtract(2, 'days').format('YYYY-MM-DD');
+    return intTime.subtract(2, 'days').format('YYYY-MM-DD');
+
+
     
 }
 
