@@ -15,7 +15,6 @@ class Home extends React.Component {
         super(props);
         this.state = {
             searchField:'',
-            base:'',
             randomCurrencies:[],
             symbols:[],
             error:'',
@@ -35,6 +34,7 @@ class Home extends React.Component {
     }
 
     handleError(error) {
+        
         this.setState({error});
     }
 
@@ -44,8 +44,11 @@ class Home extends React.Component {
                                 .then(data => {
                                         const {base,rates} = data;
                                         const symbols = Object.keys(rates).concat(base);
-                                        this.getData(sample(symbols,1));  
-                                        this.setState({symbols});
+                                        this.setState({
+                                            symbols,
+                                            randomCurrencies:[]}
+                                            );
+                                        sample(symbols,4).forEach(symbol => this.getData(symbol));
                                     });
     }
 
@@ -57,6 +60,7 @@ class Home extends React.Component {
                     .then(data => {
                             const {base,rates} = data[0];
                             const {rates:ratesYesterday} = data[1];
+                            const randomCurrencies = this.state.randomCurrencies;
                             let currencies = [];
                             
                             for (const symbol in rates) {
@@ -65,17 +69,18 @@ class Home extends React.Component {
                                     currency['symbol'] = symbol;
                                     currency['rate'] =  rates[symbol];
                                     currency['rateYesterday'] = ratesYesterday[symbol];
+                                    currency['base'] = base;
                                     currencies.push(currency);
                                 }
-                            }
-                            const randomCurrencies = sample(currencies,4);
+                        }
+                            randomCurrencies.push(...sample(currencies,1));
                             this.setState({
-                                base,
                                 loaded:true,
                                 error:'',
                                 randomCurrencies
                             });       
-                        });
+                        })
+                            .catch(this.handleError);
     }
 
     handleModal() {
@@ -93,28 +98,46 @@ class Home extends React.Component {
 
 
     render() {
-       
-        if (!this.state.loaded) {
+
+            
+        const {searchField, symbols, randomCurrencies, loaded, isOpen, error} = this.state;
+      
+
+        if (!loaded) {
             return <Loader />
         }
-        return (
-        <div className="container">
-            <div className="search-bar-container">
-                <Searchbar 
-                handleChange={this.handleChange} 
-                searchField={this.state.searchField} 
-                symbols={this.state.symbols}
-                />
-                <button className="mx-auto mt-5 btn currency-button d-block shadow" onClick={this.handleModal}>Show All Currencies</button>
+
+        else if (error) {
+            return (
+            <div className="alert alert-danger" role="alert">
+               {error}
             </div>
-            <Currencytable handleModal={this.handleModal} isOpen={this.state.isOpen} symbols={this.state.symbols} />
-            <Randomdisplay 
-            base={this.state.base}
-            currencies={this.state.randomCurrencies}
-            loaded={this.state.loaded}
-            />
+            );
+        }
+        
+        return (
+            <div>
+                <div className="search-bar-container">
+                    <Searchbar 
+                    handleChange={this.handleChange} 
+                    searchField={searchField} 
+                    symbols={symbols}
+                    />
+                    <button className="mx-auto mt-5 btn currency-button d-block shadow" onClick={this.handleModal}>Show All Currencies</button>
+                </div>
+                <Currencytable 
+                    handleModal={this.handleModal} 
+                    isOpen={isOpen} 
+                    symbols={symbols} 
+                />
+            <div className="container">
+                    
+                    <Randomdisplay 
+                    
+                    currencies={randomCurrencies}
+                    />
+            </div>
         </div>
-          
         );
     }
 }

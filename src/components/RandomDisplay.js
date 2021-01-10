@@ -25,9 +25,9 @@ const CurrencyPair = ({rateYesterday,base,rate,currency}) => (
     </div>
 )
 
-const Randomdisplay = ({base,currencies,loaded}) => {
+const Randomdisplay = ({currencies,loaded}) => {
     currencies = currencies.map(currency => {
-        const {rateYesterday,rate,symbol} = currency;
+        const {rateYesterday,rate,symbol,base} = currency;
         return <CurrencyPair rateYesterday={rateYesterday} rate={rate} currency={symbol} key={symbol} base={base} />
     });
   

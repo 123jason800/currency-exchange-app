@@ -19,6 +19,7 @@ class Basecurrency extends React.Component {
                 symbol:'',
                 rate:0,
             },
+            error:'',
             isModalOpen: false
         }
 
@@ -55,7 +56,9 @@ class Basecurrency extends React.Component {
         }
     }
 
-  
+    handleError(error) {
+        this.setState({error:''});
+    }
 
 
     getData(base) {
@@ -75,6 +78,7 @@ class Basecurrency extends React.Component {
                     base,
                     baseCurrencies,
                     loaded: true,
+                    error: '',
                 });
             });
     }
@@ -86,7 +90,8 @@ class Basecurrency extends React.Component {
             isModalOpen:true,
             compareCurrency: {
                 symbol,
-                rate
+                rate,
+                error:''
             },
             compareCurrencyInputField: rate.toFixed(3),
         });
@@ -100,6 +105,7 @@ class Basecurrency extends React.Component {
             compareCurrency: {
                 symbol:'',
                 rate:0,
+                error:''
             }
         });
     }
@@ -118,9 +124,17 @@ class Basecurrency extends React.Component {
 
 
     render() {
-        const {base, baseCurrencies, loaded, filterField, isModalOpen, compareCurrency, baseCurrencyInputField , compareCurrencyInputField} = this.state;
+        const {base, error, baseCurrencies, loaded, filterField, isModalOpen, compareCurrency, baseCurrencyInputField , compareCurrencyInputField} = this.state;
         if (!loaded) {
             return (<Loader />);
+        }
+
+        else if (error){
+            return (
+                <div className="alert alert-danger" role="alert">
+                {error}
+                </div>
+            )
         }
         return (
             <div className="container my-3">
