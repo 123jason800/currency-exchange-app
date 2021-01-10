@@ -14,7 +14,10 @@
    
 }
 
-
+.search-bar-container {
+    max-width: 850px;
+    margin: 0 auto;
+}
 
 .card a {
     color: #000;
@@ -22,12 +25,8 @@
 
 .result-card {
     min-height: 50px;
-  
 }
 
-.search-results {
-    min-height: 200px;
-}
 
 .currency-button {
     border: 1px solid #000;
