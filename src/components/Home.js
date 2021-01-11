@@ -7,9 +7,6 @@ import Loader from './Loader';
 import {sample} from 'underscore';
 import './../css/Mobile.css';
 
-
-
-
 class Home extends React.Component {
     constructor(props) {
         super(props);
@@ -34,53 +31,52 @@ class Home extends React.Component {
     }
 
     handleError(error) {
-        
         this.setState({error});
     }
 
     getRandomData() {
-                    fetch('https://alt-exchange-rate.herokuapp.com/latest')
-                        .then(handleRes)
-                                .then(data => {
-                                        const {base,rates} = data;
-                                        const symbols = Object.keys(rates).concat(base);
-                                        this.setState({
-                                            symbols,
-                                            randomCurrencies:[]}
-                                            );
-                                        sample(symbols,4).forEach(symbol => this.getData(symbol));
-                                    });
+        fetch('https://alt-exchange-rate.herokuapp.com/latest')
+            .then(handleRes)
+            .then(data => {
+                const {base,rates} = data;
+                const symbols = Object.keys(rates).concat(base);
+                this.setState({
+                    symbols,
+                    randomCurrencies:[]}
+                    );
+                sample(symbols,4).forEach(symbol => this.getData(symbol));
+                });
     }
 
     getData(symbol) {
         Promise.all([
                     fetch(`https://alt-exchange-rate.herokuapp.com/latest?base=${symbol}`),
                     fetch(`https://alt-exchange-rate.herokuapp.com/${getPreviousDate()}?base=${symbol}`)
-                ]).then(handleRes)
-                    .then(data => {
-                            const {base,rates} = data[0];
-                            const {rates:ratesYesterday} = data[1];
-                            const randomCurrencies = this.state.randomCurrencies;
-                            let currencies = [];
-                            
-                            for (const symbol in rates) {
-                                if (symbol !== base) {
-                                    const currency = {};
-                                    currency['symbol'] = symbol;
-                                    currency['rate'] =  rates[symbol];
-                                    currency['rateYesterday'] = ratesYesterday[symbol];
-                                    currency['base'] = base;
-                                    currencies.push(currency);
-                                }
-                        }
-                            randomCurrencies.push(...sample(currencies,1));
-                            this.setState({
-                                loaded:true,
-                                error:'',
-                                randomCurrencies
-                            });       
-                        })
-                            .catch(this.handleError);
+                ])
+                .then(handleRes)
+                .then(data => {
+                    const {base,rates} = data[0];
+                    const {rates:ratesYesterday} = data[1];
+                    const randomCurrencies = this.state.randomCurrencies;
+                    let currencies = [];
+                    
+                    for (const symbol in rates) {
+                        if (symbol !== base) {
+                            const currency = {};
+                            currency['symbol'] = symbol;
+                            currency['rate'] =  rates[symbol];
+                            currency['rateYesterday'] = ratesYesterday[symbol];
+                            currency['base'] = base;
+                            currencies.push(currency);
+                        }}
+                
+                    randomCurrencies.push(...sample(currencies,1));
+                    this.setState({
+                        loaded:true,
+                        error:'',
+                        randomCurrencies
+                    });})
+                 .catch(this.handleError);
     }
 
     handleModal() {
@@ -89,19 +85,19 @@ class Home extends React.Component {
         this.setState({isOpen});
     }
 
-    
-
     componentDidMount() {
         this.getRandomData();
     }
 
-
-
-    render() {
-
-            
-        const {searchField, symbols, randomCurrencies, loaded, isOpen, error} = this.state;
-      
+    render() {   
+        const {
+            searchField, 
+            symbols, 
+            randomCurrencies, 
+            loaded, 
+            isOpen, 
+            error
+            } = this.state;
 
         if (!loaded) {
             return <Loader />
@@ -116,28 +112,30 @@ class Home extends React.Component {
         }
         
         return (
-            <div>
+            <React.Fragment>
                 <div className="search-bar-container">
                     <Searchbar 
                     handleChange={this.handleChange} 
                     searchField={searchField} 
                     symbols={symbols}
                     />
-                    <button className="mx-auto mt-5 btn currency-button d-block shadow" onClick={this.handleModal}>Show All Currencies</button>
+                    <button 
+                    className="mx-auto mt-5 btn currency-button d-block shadow" 
+                    onClick={this.handleModal}
+                    >Show All Currencies
+                    </button>
                 </div>
                 <Currencytable 
-                    handleModal={this.handleModal} 
-                    isOpen={isOpen} 
-                    symbols={symbols} 
+                handleModal={this.handleModal} 
+                isOpen={isOpen} 
+                symbols={symbols} 
                 />
             <div className="container">
-                    
-                    <Randomdisplay 
-                    
-                    currencies={randomCurrencies}
-                    />
+                <Randomdisplay 
+                currencies={randomCurrencies}
+                />
             </div>
-        </div>
+        </React.Fragment>
         );
     }
 }

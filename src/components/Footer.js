@@ -6,11 +6,21 @@ const Footer = props => (
         <div className="container">
             <div className="row">
                 <div className="col-12 text-center my-2 col-lg-4">
-                    <FontAwesomeIcon className="mr-2" size="lg" icon={faGithub} color="black"/>
+                    <FontAwesomeIcon 
+                    className="mr-2" 
+                    size="lg" 
+                    icon={faGithub} 
+                    color="black"
+                    />
                     <a href="https://github.com/123jason800">Github</a>
                 </div>
                 <div className="col-12 text-center my-2 col-lg-4">
-                    <FontAwesomeIcon className="mr-2" size="lg" icon={faLinkedin} color="black"/>
+                    <FontAwesomeIcon 
+                    className="mr-2" 
+                    size="lg" 
+                    icon={faLinkedin} 
+                    color="black"
+                    />
                     <a href="https://www.linkedin.com/in/jason-ouyang-7995a21bb/">LinkedIn</a>
                 </div>
                 <div className="col-12  text-center my-2 col-lg-4">

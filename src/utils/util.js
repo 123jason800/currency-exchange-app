@@ -1,9 +1,6 @@
 import moment from 'moment';
 
-
 export const handleRes = response => {
-
-
     if (!Array.isArray(response)) {
         if (response.ok) {
             return response.json();
@@ -21,16 +18,10 @@ export const handleRes = response => {
 
 }
 
-
-
 export const getPreviousDate = () => {
     const intTime = moment().utc();
     const currentHour = parseInt(intTime.format("HH"));
-   
     // Account for Stock Open Hours in UTC time
-    
-    console.log(intTime.subtract(1, 'days').format('YYYY-MM-DD'));
-    console.log(intTime.subtract(2, 'days').format('YYYY-MM-DD'));
     if (currentHour >= 7 &&  currentHour <= 16) {
         const currentMinutes =  parseInt(intTime.format("mm"));
         if (currentMinutes >= 30) {
@@ -38,17 +29,8 @@ export const getPreviousDate = () => {
         }
     }    
     return intTime.subtract(2, 'days').format('YYYY-MM-DD');
-
-
-    
 }
 
-export const calculateRate = (rate,rateYesterday) => {
-  
+export const calculateRate = (rate,rateYesterday) => Math.abs(((rate-rateYesterday)/rate * 100).toFixed(2));
 
-    return Math.abs(((rate-rateYesterday)/rate * 100).toFixed(2));
-}
-
-export const calculateCurrency = (baseRate,againstRate) => {
-    return parseFloat(baseRate) * parseFloat(againstRate);
-}
+export const calculateCurrency = (baseRate,againstRate) => parseFloat(baseRate) * parseFloat(againstRate);

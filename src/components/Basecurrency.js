@@ -20,13 +20,13 @@ class Basecurrency extends React.Component {
                 rate:0,
             },
             error:'',
-            isModalOpen: false
+            isModalOpen: false,
+            
         }
 
         this.getData = this.getData.bind(this);
         this.openCurrencyConversion = this.openCurrencyConversion.bind(this);
         this.closeCurrencyConversion = this.closeCurrencyConversion.bind(this);
-      
     }
 
 
@@ -60,31 +60,28 @@ class Basecurrency extends React.Component {
         this.setState({error:''});
     }
 
-
     getData(base) {
         fetch(`https://alt-exchange-rate.herokuapp.com/latest?base=${base}`)
         .then(handleRes)
-            .then(data => {
-                let baseCurrencies = [];
-                for (const currency in data.rates) {
-                    if (currency !== base){
-                        const currencyObj = {}
-                        currencyObj['symbol'] = currency;
-                        currencyObj['rate'] = data.rates[currency];
-                        baseCurrencies.push(currencyObj);
-                    }
+        .then(data => {
+            let baseCurrencies = [];
+            for (const currency in data.rates) {
+                if (currency !== base){
+                    const currencyObj = {}
+                    currencyObj['symbol'] = currency;
+                    currencyObj['rate'] = data.rates[currency];
+                    baseCurrencies.push(currencyObj);
                 }
-                this.setState({
-                    base,
-                    baseCurrencies,
-                    loaded: true,
-                    error: '',
-                });
+            }
+            this.setState({
+                base,
+                baseCurrencies,
+                loaded: true,
+                error: '',
             });
+        });
     }
 
-   
-    
     openCurrencyConversion(symbol,rate) {
         this.setState({
             isModalOpen:true,
@@ -111,20 +108,29 @@ class Basecurrency extends React.Component {
     }
 
     componentDidMount() {
-      const currentBase =  this.props.location.pathname.split('/')[2];
-      this.getData(currentBase);
+        const currentBase =  this.props.location.pathname.split('/')[2];
+        this.getData(currentBase);
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({loaded:false});
         const currentBase = nextProps.location.pathname.split('/')[2];
+        this.setState({loaded:false});
         this.getData(currentBase);
     }
-  
-
 
     render() {
-        const {base, error, baseCurrencies, loaded, filterField, isModalOpen, compareCurrency, baseCurrencyInputField , compareCurrencyInputField} = this.state;
+        const {
+               base, 
+               error, 
+               baseCurrencies, 
+               loaded, 
+               filterField, 
+               isModalOpen, 
+               compareCurrency, 
+               baseCurrencyInputField, 
+               compareCurrencyInputField
+            } = this.state;
+        
         if (!loaded) {
             return (<Loader />);
         }
@@ -134,23 +140,20 @@ class Basecurrency extends React.Component {
                 <div className="alert alert-danger" role="alert">
                 {error}
                 </div>
-            )
+            );
         }
         return (
             <div className="container my-3">
-            
                 <div className="d-flex justify-content-center align-items-center p-3">
                     <h1 className="mb-0 mr-3">{base}</h1>
                     <div className={`currency-flag-${base.toLowerCase()} border border-dark currency-flag currency-flag-xl`}>
                     </div>
                 </div>
-
                 <CurrencyRatesTable 
                 openCurrencyConversion={this.openCurrencyConversion} 
                 filterField={filterField} baseCurrencies={baseCurrencies} 
                 handleChange={this.handleChangeFilterField} 
                 />
-
                 <CurrencyConversion 
                 base={base} 
                 isModalOpen={isModalOpen} 
