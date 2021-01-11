@@ -4,8 +4,12 @@ import Currencylist from './Currencylist';
 
 const Searchbar = ({symbols,searchField,handleChange}) => {
     
-    let filteredCurrencies = symbols.filter(symbol => symbol.includes(searchField)).map(currency => (
-         <Currencylist currency={currency} key={currency} sizing="col-6 col-md-4 col-lg-3" />));
+    let filteredCurrencies = symbols.filter(symbol => symbol.includes(searchField)).map(currency => 
+        (<Currencylist 
+         currency={currency} 
+         key={currency} 
+         sizing="col-6 col-md-4 col-lg-3" 
+         />));
 
     return (
         <div className="mt-5 search-form">
@@ -17,7 +21,6 @@ const Searchbar = ({symbols,searchField,handleChange}) => {
             onChange={handleChange} 
             value={searchField} 
             />
-           
             <div className='search-results mt-5'>
                 <div className="container w-75">
                     <div className="row">

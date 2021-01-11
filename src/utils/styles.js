@@ -11,7 +11,6 @@ export const customStyles = {
     }
   };
 
-
 export const buttonStyles = {
   position: "absolute",
   top: "0",
