@@ -18,6 +18,21 @@ input[type=number] {
 /* Currency Conversion */
 .currency-conversion {
     padding: 10px 20px;
-    
+}
 
+
+.graph {
+    height: 450px;
+}
+
+
+
+@media (max-width:845px) {
+   .graph {
+       height: 230px;
+   } 
+
+   input[type="number"] {
+       width: 150px;
+   }
 }

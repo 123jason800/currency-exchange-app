@@ -1,7 +1,7 @@
 import './../css/Loader.css';
 
-const Loader = props => (
-    <div className={`loader`}>
+const Loader = ({size}) => (
+    <div className={`loader loader-${size}`}>
         <div className="loader-inner line-scale">
             <div></div> 
             <div></div> 

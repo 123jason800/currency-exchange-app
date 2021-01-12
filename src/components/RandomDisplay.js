@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp,faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import {calculateRate} from './../utils/util';
 
-
 const CurrencyPair = ({rateYesterday,base,rate,currency}) => (
     <div className="font-weight-bold col-lg-3 col-md-4 col-12 col-sm-6">
         <div className="card currency-card shadow  align-items-center p-3 mb-3">
