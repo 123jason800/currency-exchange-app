@@ -27,7 +27,7 @@ input[type=number] {
 
 
 
-@media (max-width:845px) {
+@media (max-width:767px) {
    .graph {
        height: 230px;
    } 
