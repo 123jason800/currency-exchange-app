@@ -9,13 +9,12 @@ import AutoSizer from 'react-virtualized-auto-sizer';
 import moment from 'moment';
 
 const CurrencyGraph = ({graphData, symbol, base}) => (
-  
  <div className="col-12 my-3 graph">
     <h3 className="text-center">{base}-{symbol}</h3>
     <AutoSizer>
     {({width,height}) => (
       <XYPlot
-      margin={{left: 50}}
+      margin={{left: 60}}
       xType="time-utc"
       animation={2}
       width={width}
@@ -34,7 +33,6 @@ const CurrencyGraph = ({graphData, symbol, base}) => (
         tickFormat={(v) =>  moment(v).format('MM/DD')}
         />
         <YAxis 
-        tickFormat={v => v.toFixed(3)}
         />  
     </XYPlot>)}
   </AutoSizer>
