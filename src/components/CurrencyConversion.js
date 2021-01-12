@@ -1,9 +1,23 @@
 import './../css/CurrencyConversion.css';
 import {customStyles,buttonStyles} from '../utils/styles';
 import CurrencyGraph from './CurrencyGraph';
+import Loader from './Loader';
 import Modal from 'react-modal';
 
-const Baseinput = ({base, isModalOpen, handleChange, compareCurrency ,closeCurrencyConversion, baseCurrencyInputField, compareCurrencyInputField}) => (
+const Baseinput = props => {
+    const {
+        base, 
+        isModalOpen,
+        handleChange, 
+        compareCurrency ,
+        closeCurrencyConversion, 
+        baseCurrencyInputField, 
+        compareCurrencyInputField, 
+        graphData,
+        onGraphChange,
+        loaded} = props;
+
+    return(
     <Modal 
     isOpen={isModalOpen}     
     style={customStyles}
@@ -33,6 +47,12 @@ const Baseinput = ({base, isModalOpen, handleChange, compareCurrency ,closeCurre
                     </div>
                 </div>
         </div>
+        <div className="btn-group my-2" role="group" aria-label="Basic example">
+            <button type="button" onClick={e => onGraphChange(365,base,compareCurrency.symbol)} className="btn mr-2 btn-outline-dark btn-sm">1 Year</button>
+            <button type="button" onClick={e => onGraphChange(90,base,compareCurrency.symbol)} className="btn mr-2 btn-outline-dark btn-sm">3 Months</button>
+            <button type="button" onClick={e => onGraphChange(30,base,compareCurrency.symbol)} className="btn mr-2 btn-outline-dark btn-sm">1 Month</button>
+        </div>
+        {!loaded?<Loader size="small" />:<CurrencyGraph graphData={graphData} symbol={compareCurrency.symbol} base={base} />}
         <button 
         onClick={closeCurrencyConversion} 
         hidden={!isModalOpen} 
@@ -41,9 +61,8 @@ const Baseinput = ({base, isModalOpen, handleChange, compareCurrency ,closeCurre
         >
         Close
         </button>     
-        <CurrencyGraph />
-    </Modal>
-);
+    </Modal>)
+};
 
 
 export default Baseinput;

@@ -1,51 +1,43 @@
 import {
-    FlexibleXYPlot as XYPlot,
+    XYPlot,
     XAxis,
     YAxis,
-    HorizontalGridLines,
-    VerticalGridLines,
-    LineMarkSeries
+    LineSeries,
   } from 'react-vis';
+import '../../node_modules/react-vis/dist/style.css';
+import AutoSizer from 'react-virtualized-auto-sizer';
+import moment from 'moment';
 
-  import '../../node_modules/react-vis/dist/style.css';
-
-
-  const data = [
-  {x: 0, y: 8},
-  {x: 1, y: 5},
-  {x: 2, y: 4},
-  {x: 3, y: 9},
-  {x: 4, y: 1},
-  {x: 5, y: 7},
-  {x: 6, y: 6},
-  {x: 7, y: 3},
-  {x: 8, y: 2},
-  {x: 9, y: 0}
-];
-
-const CurrencyGraph = props => (
- <div className="col-12 my-3">
-    <h3>Currency Graph</h3>
-    <XYPlot width={300} height={300}>
-    <VerticalGridLines />
-    <HorizontalGridLines />
-    <XAxis />
-    <YAxis />
-    <LineMarkSeries
-      className="linemark-series-example"
-      style={{
-        strokeWidth: '3px'
-      }}
-      lineStyle={{stroke: 'red'}}
-      markStyle={{stroke: 'blue'}}
-      data={[{x: 1, y: 10}, {x: 2, y: 5}, {x: 3, y: 15}]}
-    />
-    <LineMarkSeries
-      className="linemark-series-example-2"
-      curve={'curveMonotoneX'}
-      data={[{x: 1, y: 11}, {x: 1.5, y: 29}, {x: 3, y: 7}]}
-    />
-  </XYPlot>
+const CurrencyGraph = ({graphData, symbol, base}) => (
+  
+ <div className="col-12 my-3 graph">
+    <h3 className="text-center">{base}-{symbol}</h3>
+    <AutoSizer>
+    {({width,height}) => (
+      <XYPlot
+      margin={{left: 50}}
+      xType="time-utc"
+      animation={2}
+      width={width}
+      height={height}
+      >
+        <LineSeries
+          className="linemark-series-example"
+          style={{
+            strokeWidth: '2px'
+          }}
+          size={1}
+          data={graphData}
+        />  
+        <XAxis 
+        tickTotal={6} 
+        tickFormat={(v) =>  moment(v).format('MM/DD')}
+        />
+        <YAxis 
+        tickFormat={v => v.toFixed(3)}
+        />  
+    </XYPlot>)}
+  </AutoSizer>
 </div>
 );
 

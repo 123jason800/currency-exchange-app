@@ -31,7 +31,8 @@ class Home extends React.Component {
     }
 
     handleError(error) {
-        this.setState({error});
+        const {message} = error;
+       this.setState({error:message});
     }
 
     getRandomData() {
@@ -105,8 +106,10 @@ class Home extends React.Component {
 
         else if (error) {
             return (
-            <div className="alert alert-danger" role="alert">
-               {error}
+            <div className="error-page">
+                <div className="alert alert-danger" role="alert">
+                {error}
+                </div>
             </div>
             );
         }

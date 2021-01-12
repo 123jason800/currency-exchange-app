@@ -1,5 +1,10 @@
 import React from 'react';
-import {handleRes,calculateCurrency} from './../utils/util';
+import {
+    handleRes,
+    calculateCurrency,
+    getDateSubtracted,
+    getDataXY,
+    getcurrentDate} from './../utils/util';
 import CurrencyConversion from './CurrencyConversion';
 import CurrencyRatesTable from './CurrencyRatesTable';
 import Loader from './Loader';
@@ -15,18 +20,21 @@ class Basecurrency extends React.Component {
             filterField:'',
             baseCurrencyInputField:'1',
             compareCurrencyInputField:'',
+            error:'',
             compareCurrency: {
                 symbol:'',
                 rate:0,
             },
-            error:'',
+            graphData:[],
+            graphLoaded:false,
             isModalOpen: false,
-            
         }
-
+        this.handleError = this.handleError.bind(this);
         this.getData = this.getData.bind(this);
         this.openCurrencyConversion = this.openCurrencyConversion.bind(this);
         this.closeCurrencyConversion = this.closeCurrencyConversion.bind(this);
+        this.getGraphData = this.getGraphData.bind(this);
+        this.onGraphChange = this.onGraphChange.bind(this);
     }
 
 
@@ -37,7 +45,6 @@ class Basecurrency extends React.Component {
 
     handleChangeCurrencyInputField = (e,current,rate) => {
         const {value} = e.target;
-      
         if (current === 'base') {
             let {compareCurrencyInputField} = this.state;
             compareCurrencyInputField = calculateCurrency(value,rate).toFixed(3);
@@ -57,7 +64,24 @@ class Basecurrency extends React.Component {
     }
 
     handleError(error) {
-        this.setState({error:''});
+        const {message} = error;
+       this.setState({error:message});
+    }
+
+    getGraphData(days,base,compare) {
+    
+       const endDate = getcurrentDate();
+       const startDate= getDateSubtracted(days);
+
+       fetch(`https://alt-exchange-rate.herokuapp.com/history?start_at=${startDate}&end_at=${endDate}&base=${base}&symbols=${compare}`)
+        .then(handleRes)
+        .then(data => {
+            const graphData = getDataXY(data.rates);
+            this.setState({
+                graphData,
+                graphLoaded:true })
+        })
+        .catch(this.handleError);
     }
 
     getData(base) {
@@ -79,19 +103,28 @@ class Basecurrency extends React.Component {
                 loaded: true,
                 error: '',
             });
-        });
+        })
+        .catch(this.handleError);
+     
     }
 
-    openCurrencyConversion(symbol,rate) {
+    onGraphChange(value,base,symbol) {
+        this.getGraphData(value,base,symbol);
+    }
+
+    openCurrencyConversion(symbol,rate,base) {
         this.setState({
             isModalOpen:true,
             compareCurrency: {
                 symbol,
                 rate,
-                error:''
+                graphLoaded:false
             },
+            error:'',
             compareCurrencyInputField: rate.toFixed(3),
         });
+
+        this.getGraphData(365,base,symbol);
     }  
 
     closeCurrencyConversion() {
@@ -105,6 +138,7 @@ class Basecurrency extends React.Component {
                 error:''
             }
         });
+
     }
 
     componentDidMount() {
@@ -128,17 +162,22 @@ class Basecurrency extends React.Component {
                isModalOpen, 
                compareCurrency, 
                baseCurrencyInputField, 
-               compareCurrencyInputField
+               compareCurrencyInputField,
+               graphData,
+               graphLoaded
             } = this.state;
         
+
         if (!loaded) {
             return (<Loader />);
         }
 
         else if (error){
             return (
-                <div className="alert alert-danger" role="alert">
-                {error}
+                <div className="error-page">
+                    <div className="alert alert-danger" role="alert">
+                    {error}
+                    </div>
                 </div>
             );
         }
@@ -151,8 +190,10 @@ class Basecurrency extends React.Component {
                 </div>
                 <CurrencyRatesTable 
                 openCurrencyConversion={this.openCurrencyConversion} 
-                filterField={filterField} baseCurrencies={baseCurrencies} 
+                filterField={filterField} 
+                baseCurrencies={baseCurrencies} 
                 handleChange={this.handleChangeFilterField} 
+                base={base}
                 />
                 <CurrencyConversion 
                 base={base} 
@@ -162,6 +203,9 @@ class Basecurrency extends React.Component {
                 baseCurrencyInputField={baseCurrencyInputField} 
                 compareCurrencyInputField={compareCurrencyInputField}
                 handleChange={this.handleChangeCurrencyInputField}
+                graphData={graphData}
+                loaded={graphLoaded}
+                onGraphChange={this.onGraphChange}
                 /> 
             </div>
         );
