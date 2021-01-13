@@ -1,3 +1,5 @@
+
+
 export const customStyles = {
     content : {
       top : '50%',
@@ -22,3 +24,4 @@ export const buttonStyles = {
   borderTop: 'none'
 
 };
+

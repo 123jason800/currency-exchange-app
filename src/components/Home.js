@@ -7,6 +7,8 @@ import Loader from './Loader';
 import {sample} from 'underscore';
 import './../css/Mobile.css';
 
+
+
 class Home extends React.Component {
     constructor(props) {
         super(props);
@@ -134,9 +136,9 @@ class Home extends React.Component {
                 symbols={symbols} 
                 />
             <div className="container">
-                <Randomdisplay 
-                currencies={randomCurrencies}
-                />
+                    <Randomdisplay 
+                    currencies={randomCurrencies}
+                    />
             </div>
         </React.Fragment>
         );

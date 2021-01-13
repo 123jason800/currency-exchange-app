@@ -2,6 +2,7 @@ import Modal from 'react-modal';
 import {customStyles} from './../utils/styles';
 import {buttonStyles} from './../utils/styles';
 import Currencylist from './Currencylist';
+import './../css/CurrencyTable.css';
 
 Modal.setAppElement('#root');
 
