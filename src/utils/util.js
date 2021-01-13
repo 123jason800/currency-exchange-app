@@ -1,4 +1,5 @@
 import moment from 'moment';
+import {sample} from 'underscore';
 
 export const handleRes = response => {
     if (!Array.isArray(response)) {
@@ -56,4 +57,9 @@ export const getDataXY = data => {
     }
 
     return arr;
+}
+
+export const getRandomCurrency = symbols => {
+   
+    return sample(symbols,1).join('');
 }

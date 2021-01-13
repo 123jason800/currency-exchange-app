@@ -2,9 +2,9 @@ import React from 'react';
 import Searchbar from './Searchbar';
 import Randomdisplay from './RandomDisplay';
 import Currencytable from './Currencytable';
-import {handleRes,getPreviousDate} from './../utils/util';
+import {handleRes,getRandomCurrency} from './../utils/util';
+import {random, sample} from 'underscore';
 import Loader from './Loader';
-import {sample} from 'underscore';
 import './../css/Mobile.css';
 
 
@@ -51,35 +51,25 @@ class Home extends React.Component {
                 });
     }
 
-    getData(symbol) {
-        Promise.all([
-                    fetch(`https://alt-exchange-rate.herokuapp.com/latest?base=${symbol}`),
-                    fetch(`https://alt-exchange-rate.herokuapp.com/${getPreviousDate()}?base=${symbol}`)
-                ])
-                .then(handleRes)
-                .then(data => {
-                    const {base,rates} = data[0];
-                    const {rates:ratesYesterday} = data[1];
-                    const randomCurrencies = this.state.randomCurrencies;
-                    let currencies = [];
-                    
-                    for (const symbol in rates) {
-                        if (symbol !== base) {
-                            const currency = {};
-                            currency['symbol'] = symbol;
-                            currency['rate'] =  rates[symbol];
-                            currency['rateYesterday'] = ratesYesterday[symbol];
-                            currency['base'] = base;
-                            currencies.push(currency);
-                        }}
-                
-                    randomCurrencies.push(...sample(currencies,1));
-                    this.setState({
-                        loaded:true,
-                        error:'',
-                        randomCurrencies
-                    });})
-                 .catch(this.handleError);
+    getData(symbol) {  
+        fetch(`https://alt-exchange-rate.herokuapp.com/latest?base=${symbol}`)
+            .then(handleRes)
+            .then(data => {
+                const {base,rates} = data;
+                const randomCurrencySymbol = getRandomCurrency(Object.keys(rates));
+                const randomCurrency = {};
+                randomCurrency['symbol'] = randomCurrencySymbol;
+                randomCurrency['rate'] = rates[randomCurrencySymbol];
+                randomCurrency['base'] = base;
+                const {randomCurrencies} = this.state;
+                randomCurrencies.push(randomCurrency);
+                this.setState({
+                    loaded:true,
+                    error:'',
+                    randomCurrencies
+                });
+            })
+                .catch(this.handleError);
     }
 
     handleModal() {
