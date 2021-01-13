@@ -14,3 +14,8 @@
 .currency-card {
     border: 1px solid #000;
 }
+
+.currency-card:hover {
+    animation-name: pulse;
+    animation-duration: 0.5s;
+}

@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import './../css/RandomDisplay.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp,faArrowDown } from '@fortawesome/free-solid-svg-icons';
@@ -6,7 +7,7 @@ import {calculateRate} from './../utils/util';
 
 const CurrencyPair = ({rateYesterday,base,rate,currency}) => (
     <div className="font-weight-bold col-lg-3 col-md-4 col-12 col-sm-6">
-        <div className="card currency-card shadow  align-items-center p-3 mb-3">
+        <Link className="card currency-card shadow  align-items-center p-3 mb-3" to={`/base/${base}`} >
             <div className={`currency-flag-${base.toLowerCase()} currency-flag  currency-flag-xl  border border-dark`}>
             </div> 
             <div className="my-2">
@@ -36,7 +37,7 @@ const CurrencyPair = ({rateYesterday,base,rate,currency}) => (
             </div>
             <div className={`currency-flag-${currency.toLowerCase()} currency-flag currency-flag-xl  border border-dark `}>
             </div> 
-        </div>
+        </Link>
     </div>
 )
 const Randomdisplay = ({currencies}) => {
@@ -55,12 +56,13 @@ const Randomdisplay = ({currencies}) => {
   
     return (
         <React.Fragment>
-            <div className="my-5 random-display p-3">
+            <div className="my-5 random-display p-3 animate__animated animate__fadeIn">
                 <div className="row">
                     {currencies} 
                 </div>
             </div>
         </React.Fragment>
+        
     );
 }
 

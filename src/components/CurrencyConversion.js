@@ -15,8 +15,16 @@ const Baseinput = props => {
         compareCurrencyInputField, 
         graphData,
         onGraphChange,
+        active,
         loaded} = props;
-
+    const getActive = (n,index) => {
+        if (n===index) {
+            return 'active';
+        }
+        else {
+            return '';
+        }
+    }
     return(
     <Modal 
     isOpen={isModalOpen}     
@@ -47,12 +55,27 @@ const Baseinput = props => {
                     </div>
                 </div>
         </div>
-        <div className="btn-group my-2" role="group" aria-label="Basic example">
-            <button type="button" onClick={e => onGraphChange(365,base,compareCurrency.symbol)} className="btn mr-2 btn-outline-dark btn-sm">1 Year</button>
-            <button type="button" onClick={e => onGraphChange(90,base,compareCurrency.symbol)} className="btn mr-2 btn-outline-dark btn-sm">3 Months</button>
-            <button type="button" onClick={e => onGraphChange(30,base,compareCurrency.symbol)} className="btn mr-2 btn-outline-dark btn-sm">1 Month</button>
-        </div>
+        
         {!loaded?<Loader size="small" />:<CurrencyGraph graphData={graphData} symbol={compareCurrency.symbol} base={base} />}
+        <div className="btn-group mt-5 d-flex" >
+                <button 
+                className={`btn rounded-pill ${getActive(365,active)} mr-2 btn-outline-dark btn-sm`} 
+                onClick={e => onGraphChange(365,base,compareCurrency.symbol)}
+                >Last Year 
+                </button>
+         
+                <button 
+                className={`btn rounded-pill ${getActive(90,active)} mr-2 btn-outline-dark btn-sm`} 
+                onClick={e => onGraphChange(90,base,compareCurrency.symbol)} 
+                >Last 90 days
+                </button>
+            
+                <button 
+                className={`btn rounded-pill ${getActive(30,active)} mr-2 btn-outline-dark btn-sm`}
+                onClick={e => onGraphChange(30,base,compareCurrency.symbol)}
+                >Last Month 
+                 </button>
+        </div>
         <button 
         onClick={closeCurrencyConversion} 
         hidden={!isModalOpen} 

@@ -27,6 +27,7 @@ class Basecurrency extends React.Component {
             },
             graphData:[],
             graphLoaded:false,
+            graphActive:365,
             isModalOpen: false,
         }
         this.handleError = this.handleError.bind(this);
@@ -47,7 +48,7 @@ class Basecurrency extends React.Component {
         const {value} = e.target;
         if (current === 'base') {
             let {compareCurrencyInputField} = this.state;
-            compareCurrencyInputField = calculateCurrency(value,rate).toFixed(3);
+            compareCurrencyInputField = calculateCurrency(value,rate).toFixed(5);
             this.setState({
                 baseCurrencyInputField:value,
                 compareCurrencyInputField
@@ -55,7 +56,7 @@ class Basecurrency extends React.Component {
         }
         else if (current === 'compare') {
             let {baseCurrencyInputField} = this.state;
-            baseCurrencyInputField = calculateCurrency(value,rate).toFixed(3);
+            baseCurrencyInputField = calculateCurrency(value,rate).toFixed(5);
             this.setState({
                 compareCurrencyInputField:value,
                 baseCurrencyInputField
@@ -64,7 +65,7 @@ class Basecurrency extends React.Component {
     }
 
     handleError(error) {
-        const {message} = error;
+       const {message} = error;
        this.setState({error:message});
     }
 
@@ -109,6 +110,9 @@ class Basecurrency extends React.Component {
     }
 
     onGraphChange(value,base,symbol) {
+        this.setState({
+            graphActive:value
+        });
         this.getGraphData(value,base,symbol);
     }
 
@@ -118,10 +122,11 @@ class Basecurrency extends React.Component {
             compareCurrency: {
                 symbol,
                 rate,
-                graphLoaded:false
             },
             error:'',
-            compareCurrencyInputField: rate.toFixed(3),
+            graphLoaded:false,
+            graphActive:365,
+            compareCurrencyInputField: rate.toFixed(5),
         });
 
         this.getGraphData(365,base,symbol);
@@ -142,11 +147,13 @@ class Basecurrency extends React.Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         const currentBase =  this.props.location.pathname.split('/')[2];
         this.getData(currentBase);
     }
 
     componentWillReceiveProps(nextProps) {
+        window.scrollTo(0, 0);
         const currentBase = nextProps.location.pathname.split('/')[2];
         this.setState({loaded:false});
         this.getData(currentBase);
@@ -164,7 +171,8 @@ class Basecurrency extends React.Component {
                baseCurrencyInputField, 
                compareCurrencyInputField,
                graphData,
-               graphLoaded
+               graphLoaded,
+               graphActive
             } = this.state;
         
 
@@ -206,6 +214,7 @@ class Basecurrency extends React.Component {
                 graphData={graphData}
                 loaded={graphLoaded}
                 onGraphChange={this.onGraphChange}
+                active={graphActive}
                 /> 
             </div>
         );
